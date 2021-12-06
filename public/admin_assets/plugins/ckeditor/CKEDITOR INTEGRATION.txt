@@ -1,0 +1,29 @@
+<script src="plugins/ckeditor/ckeditor.js"></script>
+<link rel="stylesheet" href="plugins/ckeditor/styles.css">
+
+
+
+
+echo "<textarea class=\"ckeditor\" id=\"new_static_content_main_text\" name=\"new_static_content_main_text\"></textarea>";
+echo "</script><script type=\"text/javascript\">
+	CKEDITOR.config.width ='800px';
+	CKEDITOR.config.height='500px';
+</script>";
+
+ <!-- embedding SWF -->
+     <script type="text/javascript" src="theme/Flash_home/swfobject.js"></script>
+	<script type="text/javascript">
+        var flashvars = {};
+        flashvars.xml_file = "theme/Flash_home/photo_list.xml";
+        var params = {};
+        params.wmode = "transparent";
+        var attributes = {};
+        attributes.id = "slider";
+        swfobject.embedSWF("theme/Flash_home/flash_slider.swf", "flash_grid_slider", "788", "250", "9.0.0", false, flashvars, params, attributes);
+    </script>
+    <!-- embedding SWF -->
+
+<!-- bar slider SWF -->
+			<div id="flash_grid_slider">
+            	<br /><br /><a href="http://www.zweb123.com" target="_blank">Z Web Solutions</a>
+			</div>	  
