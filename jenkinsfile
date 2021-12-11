@@ -1,15 +1,12 @@
 pipeline {
-    
+     agent { docker { image 'php' } }
     stages {
         stage('Build')
             steps {
                 sh '''
-                php --version
-               composer install
-                composer --version
-                cp .env.example .env
-                php artisan key:generate
-               php artisan config:cache
+                sh 'php --version'
+               /* composer install
+                
                 echo DB_HOST=${DB_HOST} >> .env
                 echo DB_USERNAME=${DB_USERNAME} >> .env
                 echo DB_DATABASE=${DB_DATABASE} >> .env
@@ -18,28 +15,31 @@ pipeline {
                 cp .env .env.testing
                 php artisan migrate
                 '''
-
+               
             }
         }
         stage('Unit test') {
             steps {
-                sh '''
-                php artisan test
-                '''
+                
+                sh 'composer --version'
+                sh 'cp .env.example .env'
+                sh 'php artisan key:generate'
+                sh 'php artisan config:cache'
+              
             }
         }
         stage('Code coverage') {
             steps {
-                sh '''
-                vendor/bin/phpunit --coverage-html 'reports/coverage'
-                '''
+                
+                sh 'vendor/bin/phpunit --coverage-html 'reports/coverage''
+               
             }
         }
         stage('Static code analysis larastan') {
             steps {
-                sh '''
-                vendor/bin/phpstan analyse --memory-limit=2G
-                '''
+              
+              sh 'vendor/bin/phpstan analyse --memory-limit=2G'  
+              
             }
         }
         stage('Static code analysis phpcs') {
