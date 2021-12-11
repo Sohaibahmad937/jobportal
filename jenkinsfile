@@ -16,13 +16,13 @@ pipeline {
                 sh 'cp .env.example .env'
                 sh 'php artisan key:generate'
                 sh 'php artisan config:cache'
-              
+                sh './vendor/bin/phpunit ./tests'
             }
         }
         stage('Code coverage') {
             steps {
                 
-                sh 'vendor/bin/phpunit --coverage-html 'reports/coverage''
+                sh './vendor/bin/phpunit --coverage-html './reports/coverage''
                
             }
         }
@@ -35,9 +35,9 @@ pipeline {
         }
         stage('Static code analysis phpcs') {
             steps {
-                sh '''
-                vendor/bin/phpcs
-                '''
+               
+                sh 'vendor/bin/phpcs'
+              
             }
         }
         
