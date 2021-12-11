@@ -3,18 +3,9 @@ pipeline {
     stages {
         stage('Build')
             steps {
-                sh '''
-                sh 'php --version'
-               /* composer install
                 
-                echo DB_HOST=${DB_HOST} >> .env
-                echo DB_USERNAME=${DB_USERNAME} >> .env
-                echo DB_DATABASE=${DB_DATABASE} >> .env
-               echo DB_PASSWORD=${DB_PASSWORD} >> .env
-                ./vendor/bin/phpunit ./tests
-                cp .env .env.testing
-                php artisan migrate
-                '''
+                sh 'php --version'
+              
                
             }
         }
