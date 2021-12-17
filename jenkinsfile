@@ -15,5 +15,14 @@ pipeline {
                 sh './vendor/bin/phpunit ./tests'
             }
         }
+     stage('Build docker image'){
+           steps{
+               sh 'pwd'
+               
+               sh 'ls -a'
+               
+               sh 'docker build . jobportalapp:${env.BUILD_ID}'
+           }
+     }   
     }
 }
