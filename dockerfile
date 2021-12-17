@@ -14,7 +14,10 @@ RUN apt-get update && apt-get install -y \
     libfreetype6-dev \
     locales \
     zip \
-    jpegoptim optipng pngquant gifsicle \
+    jpegoptim \
+    optipng \
+    pngquant \
+    gifsicle \
     vim \
     libzip-dev \
     unzip \
@@ -23,7 +26,7 @@ RUN apt-get update && apt-get install -y \
     curl
 
 # Clear cache
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+# RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install extensions for php
 RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl
