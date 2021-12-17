@@ -21,7 +21,7 @@ pipeline {
                
                sh 'ls -a'
                
-               echo "I am fine how about you and me and now and then"
+               echo "I am fine how about you and me "
                
                sh "docker build . -t jobportalimg:${env.BUILD_ID}"
            }
