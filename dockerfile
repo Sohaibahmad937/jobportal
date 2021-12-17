@@ -6,8 +6,10 @@ COPY composer.lock composer.json /var/www/html/
 # Set working directory
 WORKDIR /var/www/html/
 
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
 # Install dependencies for the operating system software
- RUN apt-get update && apt-get install -y \
+ RUN apk update && apk install -y \
      build-essential \
      libpng-dev \
    libjpeg62-turbo-dev \
@@ -38,7 +40,7 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 RUN docker-php-ext-install gd
 
 # Install composer (php package manager)
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+# RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Copy existing application directory contents to the working directory
 COPY . /var/www/html
