@@ -21,7 +21,7 @@ pipeline {
                
                sh 'ls -a'
                
-               sh 'docker build . jobportalapp:${env.BUILD_ID}'
+               sh "docker build . -t jobportalimg:${env.BUILD_ID}"
            }
      }   
     }
