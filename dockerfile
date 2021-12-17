@@ -33,6 +33,7 @@ RUN docker-php-ext-install pdo_mysql
 RUN docker-php-ext-install zip
 RUN docker-php-ext-install exif
 RUN docker-php-ext-install pcntl
+RUN docker-php-ext-install mbstring
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 RUN docker-php-ext-install gd
 
