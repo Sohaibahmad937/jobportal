@@ -23,7 +23,7 @@ pipeline {
                
                echo "I am fine too"
                
-               sh "docker build . -t jobportalimg:${env.BUILD_ID}"
+               sh "docker build . -t jobportalimg : ${env.BUILD_ID}"
            }
      }   
     }
