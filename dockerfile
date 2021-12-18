@@ -9,7 +9,7 @@ WORKDIR /var/www/html/
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Install dependencies for the operating system software
- RUN apt-get update && apt-get install -y \
+ RUN sudo apt update && sudo apt install -y \
      build-essential \
      libpng-dev \
    libjpeg62-turbo-dev \
