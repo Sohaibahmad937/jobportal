@@ -9,24 +9,25 @@ WORKDIR /var/www/html/
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Install dependencies for the operating system software
- RUN sudo apt update && sudo apt install -y \
-     build-essential \
-     libpng-dev \
-   libjpeg62-turbo-dev \
-    libfreetype6-dev \
-   locales \
-    zip \
-    jpegoptim \
-    optipng \
-    pngquant \
-     gifsicle \
-     vim \
-    libzip-dev \
-    unzip \
-    git \
-    libonig-dev \
-    curl
+ # RUN sudo apt update && sudo apt install -y \
+  #    build-essential \
+  #    libpng-dev \
+  #  libjpeg62-turbo-dev \
+  #   libfreetype6-dev \
+  #  locales \
+  #   zip \
+  #   jpegoptim \
+  #   optipng \
+  #   pngquant \
+  #    gifsicle \
+  #    vim \
+  #   libzip-dev \
+  #   unzip \
+  #   git \
+  #   libonig-dev \
+  #   curl
 
+RUN apt-get update && apt-get install -y php7.4-{bcmath,bz2,intl,gd,mbstring,mysql,zip,common}
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
