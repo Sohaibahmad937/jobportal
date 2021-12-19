@@ -27,7 +27,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
   #   libonig-dev \
   #   curl
 
-RUN apt-get update && apt-get install -y php7.4-{bcmath,bz2,intl,gd,mbstring,mysql,zip,common}
+# RUN apt-get update && apt-get install -y php7.4-{bcmath,bz2,intl,gd,mbstring,mysql,zip,common}
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
