@@ -32,13 +32,13 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install extensions for php
-RUN docker-php-ext-install pdo_mysql   
-RUN docker-php-ext-install zip
-RUN docker-php-ext-install exif
-RUN docker-php-ext-install pcntl
-RUN docker-php-ext-install mbstring
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg
-RUN docker-php-ext-install gd
+# RUN docker-php-ext-install pdo_mysql   
+# RUN docker-php-ext-install zip
+# RUN docker-php-ext-install exif
+# RUN docker-php-ext-install pcntl
+# RUN docker-php-ext-install mbstring
+# RUN docker-php-ext-configure gd --with-freetype --with-jpeg
+# RUN docker-php-ext-install gd
 
 # Install composer (php package manager)
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
