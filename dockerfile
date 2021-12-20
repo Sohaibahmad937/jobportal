@@ -4,7 +4,7 @@ FROM php:7.4-fpm
 COPY composer.lock composer.json /var/www/html/
 
 # Set working directory
-WORKDIR /var/www/html/
+WORKDIR /var/www/html
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
@@ -44,7 +44,7 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Copy existing application directory contents to the working directory
-COPY . .
+COPY . /var/www/html
 # Assign permissions of the working directory to the www-data user
  # RUN chown -R www-data:www-data \
   #      /var/www/html/storage \
