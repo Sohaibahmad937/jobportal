@@ -1,4 +1,5 @@
 FROM php:7.4-fpm
+FROM ubuntu:18.04
 
 # Copy composer.lock and composer.json into the working directory
 COPY composer.lock composer.json /var/www/html
