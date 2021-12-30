@@ -5,7 +5,7 @@ FROM ubuntu:18.04
 COPY composer.lock composer.json /var/www/html
 
 # Set working directory
-WORKDIR /var/www/html
+WORKDIR /var/www/ttml/
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
