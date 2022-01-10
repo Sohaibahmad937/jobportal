@@ -23,7 +23,7 @@
                         <div class="col-xl-12 col-md-12 col-sm-12 col-12">
                             <h4>Categories</h4>
                             @if(moduleacess('admin/categories','add'))
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AddModal"><i class="fa fa-plus" aria-hidden="true"></i> &nbsp;{{trans('label.New')}} {{trans('label.Categories')}}</button>
+                                <a href="javascript:void(0);" onclick="CategoryAddModal('{{ url('admin/categories/create') }}')" class="btn btn-primary btn-flat"><i class="fa fa-plus" aria-hidden="true"></i> &nbsp;{{trans('label.New')}} {{trans('label.Categories')}}</a>
                             @endif
                         </div>
                     </div>
@@ -33,9 +33,8 @@
                         <table id="CategoryList" class="table dt-table-hover dataTable" >
                             <thead>
                                 <tr>
-                                    <th>{{trans('label.Category Id')}}</th>
                                     <th class="not-mobile">{{trans('label.Categories Name')}}</th>
-                                    <th class="not-mobile">{{trans('label.Parent Id')}}</th>
+                                    <th class="not-mobile">{{trans('label.Parent')}}</th>
                                     <th class="not-mobile">{{trans('label.Action')}}</th>
                                 </tr>
                             </thead>
@@ -50,44 +49,9 @@
     </div>
 </div>
 
-        
-<!-- Add Categories Model -->
-<div class="modal fade" id="AddModal"   aria-labelledby="AddModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="AddModalLabel">{{trans('label.New')}} {{trans('label.Categories')}}</h5>
-            </div>
-            <div class="modal-body">
-                <form name="AddCategory" id="AddCategory" >
-                    {{ csrf_field() }}
-                    <div class="mb-3">
-                        <label for="parent_id" class="col-form-label">Parent:</label>
-                        <select  class="form-control" name='parent_id' id="parent_id">
-                            <option selected disabled>Select Parent</option>
-                            @if(isset($cat))
-                                    @foreach($cat as $id => $val)
-                                        <option  value='{{$id}}'> {{ $val}} </option>
-                                    @endforeach
-                                @endif
-                        </select>                
-                    </div>
-                    <div class="mb-3">
-                        <label for="category_name" class="col-form-label">Category Name:<?=$required_span; ?></label>
-                        <input class="form-control" type="text" name="category_name" id="category_name" required>
-                    </div>
-                    <button type="submit"  class="btn btn-primary  submit">{{trans('label.Save')}}</button>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- End Add Categories Model -->
-
 <div class="modal fade" id="ModalEdit" data-backdrop="static"></div>
+<div class="modal fade" id="Add_CategoryModal" data-backdrop="static"></div>
+
 
 @endsection
 
@@ -107,9 +71,8 @@ $(function() {
         ordering: false,
         ajax: '{!! route('admin.CategoriesList') !!}',
         columns: [
-            { data: 'id', name: 'id' },
             { data: 'category_name', name: 'category_name' },
-            { data: 'parent_id', name: 'parent_id' },
+            { data: 'parent', name: 'parent' },
             { data: 'command', name: 'command', searchable: false }
         ],
         "dom": "<'dt--top-section'<'row'<'col-12 col-sm-6 d-flex justify-content-sm-start justify-content-center'l><'col-12 col-sm-6 d-flex justify-content-sm-end justify-content-center mt-sm-0 mt-3'f>>>" +
@@ -127,44 +90,19 @@ $(function() {
             "pageLength": 7
 
     });  
-    
-    $("#AddCategory").validate({
-        submitHandler(form){
-            var form_data = $('#AddCategory')[0];
-            var form1 = new FormData(form_data);
-            $.ajax({
-                type: "POST",
-                url: "{{route('admin.categories.store')}}",
-                data: form1,
-                contentType: false,
-                processData: false,
-                success: function( response ) {
-                    console.log(response)
-                    if(response.error == 0){
-                        toastr.success(response.msg);
-                        setTimeout(function(){
-                            location.href = response.url;
-                        },2000);
-                    }else{
-                        $(".submit").attr("disabled", false);
-                        toastr.error(response.msg);
-                    }
-                },
-                error: function(data){
-                    $(".submit").attr("disabled", false);
-                    var errors = data.responseJSON;
-                    $.each( errors.errors, function( key, value ) {
-                        var ele = "#"+key;
-                        $(ele).addClass('error');
-                        $('<label class="error">'+ value +'</label>').insertAfter(ele);
-                    });
-                }
-            });
-            return false;
-        }
-    });  
-
+  
 });
+
+function CategoryAddModal(url) {
+    $.ajax({
+        url: url,
+        method: 'GET',
+        success: function(res) {
+            $("#Add_CategoryModal").html(res);
+            $("#Add_CategoryModal").modal('show');
+        }
+    });
+}
 
 function EditModal(url) {
         $.ajax({
