@@ -37,7 +37,7 @@ WORKDIR /var/www/html/
 # RUN docker-php-ext-install mbstring
 # RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 # RUN docker-php-ext-install gd
-RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl
+RUN docker-php-ext-install pdo_mysql zip exif pcntl
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 RUN docker-php-ext-install gd
 # Install composer (php package manager)
