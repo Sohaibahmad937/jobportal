@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Test') {
             steps {
-                sh 'composer install'
+                sh 'composer install --ignore-platform-reqs'
 
                 sh 'cp .env.example .env'
 
@@ -21,7 +21,7 @@ pipeline {
                
                sh 'ls -a'
                
-               echo "I am fine tooooo "
+               echo "I am fine how about what me you and you me too "
                
                sh "docker build . -t jobportalimg:${env.BUILD_ID}"
            }
