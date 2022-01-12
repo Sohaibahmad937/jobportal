@@ -49,7 +49,7 @@ COPY . /var/www/html
 # RUN chown -R www-data:www-data \
 #         /var/www/html/storage \
 #         /var/www/html/bootstrap/cache
-
+# Create docker hub account
 # Expose port 9000 and start php-fpm server (for FastCGI Process Manager)
 EXPOSE 9093
 CMD ["php-fpm"]
