@@ -139,7 +139,6 @@ class UsersController extends Controller
             if ($input['hidden_image'] != '') {
                 unlink($imagePath . '/' . $input['hidden_image']);
             }
-
         }
         if (!empty($result)) {
             session()->flash('success', 'User Personal information Updated!');
@@ -151,7 +150,7 @@ class UsersController extends Controller
     }
 
 
-    public function CheckDuplicateUser(Request $request)
+    public function CheckDublicateUser(Request $request)
     {
         $input = $request->all();
         $email = '';
@@ -172,7 +171,7 @@ class UsersController extends Controller
 
     }
 
-    public function CheckDuplicateUsername(Request $request)
+    public function CheckDublicateUsername(Request $request)
     {
         $input = $request->all();
         $username = '';
