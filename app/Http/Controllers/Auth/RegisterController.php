@@ -7,6 +7,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
+use App\Http\Requests\RegisterRequest;
+
+use Auth;
 
 class RegisterController extends Controller
 {
@@ -68,5 +72,30 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+    }
+
+    // public function register(Request $request){
+    //     dd($request->all());
+    // }
+
+    public function register(RegisterRequest $request)
+    {
+        // dd($request->all());
+        $data = $request->all();
+        $jobs = User::create([
+            'name' => $data['name'],
+            'username'=> $data['username'],
+            'mobile' => $data['mobile'],
+            'email'=> $data['email'],
+            'password'=> Hash::make($data['password']),
+            'role'=> $data['role'],
+        ]);
+
+        
+        if($jobs)
+        {
+            return redirect()->route('front.login');
+        }
+
     }
 }

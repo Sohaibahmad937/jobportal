@@ -25,13 +25,13 @@ class CategoriesRequest extends FormRequest
     public function rules()
     {
         return [
-            'category_name' =>['regex:/^[a-zA-Z]+$/u','max:255','required',Rule::unique('categories')->ignore($this->category)]
+            'category_name' =>['regex:/^[A-Za-z. -]+$/','max:255','required',Rule::unique('categories')->ignore($this->category)]
         ];
     }
     public function messages()
     {
         return [
-            'category_name.required'=>'Category Name Is Required.',
+            'category_name.required'=>'This field is required.',
             'category_name.regex' => 'Numbers cannot be allowed.'
         ];
     }
