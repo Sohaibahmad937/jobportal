@@ -1,102 +1,59 @@
-@extends('layouts.admin')
-@section('page_header')
-<ul class="navbar-nav flex-row">
-    <li>
-        <div class="page-header">
-            <div class="page-title">
-                <h3>Pages</h3>
+<?php $required_span = '<span class="text-red">*</span>'; ?>
+<div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="AddModalLabel">{{trans('label.Add')}} {{trans('label.Categories')}}</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-        </div>
-    </li>
-</ul>
-@endsection
-@section('content')
-<?php $required_span = '<span class="text-red">*</span>';?>
-<div class="layout-px-spacing">
-    <div class="row layout-top-spacing">
-        <div class="col-xl-12 col-lg-12 col-md-12 col-12 layout-spacing ">
-            <div class="statbox widget box box-shadow">
-                <div class="widget-header">
-                    <div class="row">
-                        <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                            <h4>New Page</h4>
-                        </div>
+            <div class="modal-body">
+                <form class="form-horizontal addCategory" method="POST" action="javascript:void(0);">
+                    {{ csrf_field() }}
+                    <div class="mb-3">
+                        <label for="parent_id" class="col-form-label">Parent:</label>
+                        <select  class="form-control" name='parent_id' id="parent_id">
+                            <option>Select Parent</option>
+                                @if(isset($cat))
+                                    @foreach($cat as $id => $val)
+                                        <option  value='{{$id}}'> {{ $val}} </option>
+                                    @endforeach
+                                @endif
+                        </select>                
                     </div>
-                </div>
-                <div class="widget-content widget-content-area p-4">
-                    <div class="widget-one">
-                        <form method="POST" action="{{ route('admin.pages.store') }}" class="form-horizontal add_product" enctype="multipart/form-data">
-                            @csrf
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label for="name">{{trans('label.Name')}}: <?=$required_span; ?></label>
-                                        <input type="text" class="form-control {!! $errors->first('name', 'error') !!}" name="name" id="name" value="{{old('name')}}">
-                                        {!! $errors->first('name', '<label class="error">:message</label>') !!}
-                                    </div>
-                                </div>
-                                <!-- col-lg-6 -->
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label for="desc">{{trans('label.Desc')}}: <?=$required_span; ?></label>
-                                        <textarea type="text" name="desc" id="desc" >{{old('desc')}}</textarea>
-                                        
-                                    </div>
-                                </div>
-                                <!-- col-lg-12 -->
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="form-group">
-                                        <label for="image_name">{{trans('label.Images')}}:</label>
-                                        <input type="file" class="form-control" name="image_name" id="image_name">
-                                    </div>
-                                </div>
-                                <!-- col-lg-12 -->
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="form-group">
-                                        <div class="col-sm-9 col-sm-offset-3">
-                                            <button type="submit" class="btn btn-primary btn-flat submit">{{trans('label.Save')}}</button>
-                                            <a href="{{url('/admin/pages')}}" class="btn btn-flat btn-default">{{trans('label.Back')}}</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
+                    <div class="mb-3">
+                        <label for="category_name" class="col-form-label"> Name:<?=$required_span; ?></label>
+                        <input class="form-control" type="text" name="category_name" id="category_name" required>
                     </div>
-                </div>
+                    <button type="submit"  class="btn btn-primary  submit">{{trans('label.Save')}}</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
-</div>
-@endsection
 
-@section('script')
 <script>
-CKEDITOR.replace( 'desc' );
-$(".add_product").validate({
-    submitHandler(form){
+    $(function(){
+        $(".addCategory").validate({
+        submitHandler(form){
         $(".submit").attr("disabled", true);
-        var form_cust = $('.add_product')[0]; 
-        let form1 = new FormData(form_cust);
-        var desc = CKEDITOR.instances.desc.getData();
-        form1.append('desc',desc);
+        var form_data = $('.addCategory')[0];
+        var form1 = new FormData(form_data);
         $.ajax({
             type: "POST",
-            url: '{{route('admin.pages.store')}}',
-            data: form1,//$('.add_product').serialize(),
+            url: '{{route('admin.categories.store')}}',
+            data: form1,
             contentType: false,
             processData: false,
             success: function( response ) {
                 if(response.error == 0){
                     toastr.success(response.msg);
+
                     setTimeout(function(){
-                        location.href = '{{url('admin/pages')}}';
-                    },2000);
+                        location.href = '{{url('admin/categories')}}';
+                    },1900);
                 }else{
                     $(".submit").attr("disabled", false);
                     toastr.error(response.msg);
@@ -110,10 +67,13 @@ $(".add_product").validate({
                     $(ele).addClass('error');
                     $('<label class="error">'+ value +'</label>').insertAfter(ele);
                 });
-          }
+            }
         })
         return false;
     }
-});
+    });
+    })
+
 </script>
-@stop
+
+
