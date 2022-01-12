@@ -4,16 +4,14 @@
     <li>
         <div class="page-header">
             <div class="page-title">
-                <h3>Categories</h3>
+                <h3>Pages</h3>
             </div>
         </div>
     </li>
 </ul>
 @endsection
 @section('content')
-<?php
-  $required_span='<span style="color:red;">*</span>';
-?>
+<?php $required_span = '<span class="text-red">*</span>';?>
 <div class="layout-px-spacing">
     <div class="row layout-top-spacing">
         <div class="col-xl-12 col-lg-12 col-md-12 col-12 layout-spacing ">
@@ -21,25 +19,25 @@
                 <div class="widget-header">
                     <div class="row">
                         <div class="col-xl-12 col-md-12 col-sm-12 col-12">
-                            <h4>Categories</h4>
-                            @if(moduleacess('admin/categories','add'))
-                                <a href="javascript:void(0);" onclick="CategoryAddModal('{{ url('admin/categories/create') }}')" class="btn btn-primary btn-flat"><i class="fa fa-plus" aria-hidden="true"></i> &nbsp;{{trans('label.New')}} {{trans('label.Categories')}}</a>
+                            <h4>Pages</h4>
+                            @if(moduleacess('admin/products','add'))
+                                <a href="{{route('admin.pages.create')}}" class="btn btn-primary btn-flat"><i class="fa fa-plus" aria-hidden="true"></i> &nbsp;{{trans('label.New')}} {{trans('label.Page')}}</a>
                             @endif
                         </div>
                     </div>
                 </div>
                 <div class="widget-content widget-content-area">
                     <div class="widget-one">
-                        <table id="CategoryList" class="table dt-table-hover dataTable" >
+                        <table id="PagesList" class="table table-hover table-bordered table-striped" >
                             <thead>
-                                <tr>
-                                    <th class="not-mobile">{{trans('label.Categories Name')}}</th>
-                                    <th class="not-mobile">{{trans('label.Parent')}}</th>
-                                    <th class="not-mobile">{{trans('label.Action')}}</th>
-                                </tr>
+                            <tr>
+                                <th >{{trans('label.Name')}}</th>
+                                <th class="not-mobile">{{trans('label.Date')}}</th>
+                                <th class="not-mobile">{{trans('label.Action')}}</th>
+                            </tr>
                             </thead>
                             <tbody>
-
+                            
                             </tbody>
                         </table>
                     </div>
@@ -49,32 +47,34 @@
     </div>
 </div>
 
-<div class="modal fade" id="ModalEdit" data-backdrop="static"></div>
-<div class="modal fade" id="Add_CategoryModal" data-backdrop="static"></div>
-
-
-@endsection
+<div class="modal fade" id="MyModal" data-backdrop="static">
+</div>
+@stop
 
 
 @section('script')
 <script>
-$(function() {
-    var table_html = '';
-    var table_html_td = '';
-    var i = 1;
-    var dt = $('#CategoryList').DataTable({
-        destroy: true,
-        processing: true,
-        serverSide: true,
-        responsive: true,
-        autoWidth: false,
-        ordering: false,
-        ajax: '{!! route('admin.CategoriesList') !!}',
-        columns: [
-            { data: 'category_name', name: 'category_name' },
-            { data: 'parent', name: 'parent' },
-            { data: 'command', name: 'command', searchable: false }
-        ],
+    $(function() {
+        var table_html = '';
+        var table_html_td = '';
+        var i = 1;
+        var dt = $('#PagesList').DataTable({
+            destroy: true,
+            processing: true,
+            serverSide: true,
+            responsive: true,
+            autoWidth: false,
+            ordering: false,
+            language: {
+                url: '<?= asset('admin_assests/bower_components/datatables.net/language/'.app()->getLocale().'.json') ?>',
+            },
+            ajax: '{!! route('admin.datatable.PagesList') !!}',
+            columns: [
+                
+                { data: 'page_name', name: 'page_name' },
+                { data: 'created_at', name: 'created_at' },
+                { data: 'command', name: 'command', searchable: false },
+            ],
         "dom": "<'dt--top-section'<'row'<'col-12 col-sm-6 d-flex justify-content-sm-start justify-content-center'l><'col-12 col-sm-6 d-flex justify-content-sm-end justify-content-center mt-sm-0 mt-3'f>>>" +
         "<'table-responsive'tr>" +
         "<'dt--bottom-section d-sm-flex justify-content-sm-between text-center'<'dt--pages-count  mb-sm-0 mb-3'i><'dt--pagination'p>>",
@@ -89,33 +89,12 @@ $(function() {
             "lengthMenu": [7, 10, 20, 50],
             "pageLength": 7
 
-    });  
-  
-});
-
-function CategoryAddModal(url) {
-    $.ajax({
-        url: url,
-        method: 'GET',
-        success: function(res) {
-            $("#Add_CategoryModal").html(res);
-            $("#Add_CategoryModal").modal('show');
-        }
-    });
-}
-
-function EditModal(url) {
-        $.ajax({
-            url: url,
-            method: 'GET',
-            success: function(res) {
-                $("#ModalEdit").html(res);
-                $("#ModalEdit").modal('show');
-            }
+            
         });
-    }
+    });
 </script>
-@endsection
+@stop
+
 
 
 
