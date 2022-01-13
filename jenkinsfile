@@ -15,6 +15,9 @@ pipeline {
                 sh './vendor/bin/phpunit ./tests'
             }
         }
+         #        sh 'php --version'
+         #       sh 'composer install'
+          #      sh 'composer --version'
        # stage("Unit test") {
         #    steps {
          #       sh 'php artisan test'
