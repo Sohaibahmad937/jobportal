@@ -11,6 +11,11 @@ WORKDIR /var/www/html/
 
 # Install dependencies for the operating system software
  # RUN apt-get update && apt-get install -y \
+ 
+ #  libzip-dev \
+ #    unzip \
+ #    git \
+ #    libonig-dev \
   #   build-essential \
   #   libpng-dev \
  # libjpeg62-turbo-dev \
