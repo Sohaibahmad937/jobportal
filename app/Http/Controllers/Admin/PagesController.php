@@ -25,34 +25,12 @@ class PagesController extends Controller
      */
     public function index()
     {
-        
-        if(moduleacess('admin/pages','view') == FALSE){
-            return redirect()->back()->with(['error'=>'You dont have a permission']);
-        }
-        return view('admin.pages.index');
+        // if(moduleacess('admin/pages','view') == FALSE){
+        //     return redirect()->back()->with(['error'=>'You dont have a permission']);
+        // }
+        // return view('admin.pages.index');
     }
 
-    public function PagesList(){
-        $pro = $this->Pages->PagesList();
-        return DataTables::of($pro)
-        ->addColumn('command',function($pro){
-            $command = '';
-            if(moduleacess('admin/pages','edit')){
-                $command.='<a href="'.route('admin.pages.edit',$pro['id']).'" class="btn btn-sm btn-primary btn-flat">Edit</a> ';
-            }
-            if(moduleacess('admin/pages','delete')){
-                $command.='<form class="table_from" action="'.route("admin.pages.destroy",$pro['id']).'" method="POST">
-                '.method_field('DELETE').'
-                '.csrf_field().'
-                <button type="submit" class="btn btn-sm btn-flat btn-danger" value="delete" onClick="return confirm(\'Are You Sure You Want To Delete This? \')">Delete</button>
-            </form>';
-            }
-            return $command;
-        })
-        ->rawColumns(['command'])
-        ->make(true);
-
-    }
     /**
      * Show the form for creating a new resource.
      *

@@ -18,8 +18,7 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        $cat = Categories::pluck('category_name','id');
-        return view('admin.categories.index',compact('cat'));
+        return view('admin.categories.index');
     }
 
     /**
@@ -29,7 +28,8 @@ class CategoriesController extends Controller
      */
     public function create()
     {
-        //
+        $cat = Categories::where('parent_id',0)->pluck('category_name','id');
+        return view('admin.categories.create',compact('cat'));
     }
 
     /**
@@ -41,8 +41,8 @@ class CategoriesController extends Controller
     public function store(CategoriesRequest $request)
     {
         $input = $request->all();
-        //    dd($input);
-        if($input['parent_id'] == null)
+        //    dd($request['parent_id']);
+        if($request['parent_id'] == null)
         {
             $category = Categories::create([
                 'category_name'=> $input['category_name'],
@@ -50,16 +50,19 @@ class CategoriesController extends Controller
             ]);
 
         }
-        else
-        {   
+        else{
             $category = Categories::create([
                 'category_name'=> $input['category_name'],
                 'parent_id'=> $input['parent_id']
             ]);
+        }  
+        
 
-        }
-
-        return \Response::json(['msg'=>'Successfully added category','error'=>0]);
+        if ($category) {
+            return response()->json(['error' => 0, 'msg' => 'Success']);
+        }else{
+            return response()->json(['error' => 1, 'msg' => 'Something went wrong!']);
+        }  
 
     }
 
@@ -129,17 +132,25 @@ class CategoriesController extends Controller
 
     public function CategoriesList()
     {
-        $category = Categories::all();
-        // dd($category);
-        return DataTables::of($category)
-            
-            ->addColumn('command', function ($category) {
+        $categories = Categories::with('category')->get();
+        return DataTables::of($categories)
+            ->editColumn('parent',function ($categories){
+                if($categories->category == null )
+                {
+                    return 'Parent Category';
+                }
+                else
+                {
+                    return $categories->category->category_name;
+                }
+            })
+            ->addColumn('command', function ($categories) {
                 $command = '';  
                 if (moduleacess('admin/categories', 'edit')) {
-                    $command.='<a href="javascript:void(0);" onclick = "EditModal(\''.url('admin/categories/'.$category->id.'/edit').'\')"  class="btn mb-2 mr-2 rounded-circle btn-outline-primary" data-placement="top" title="Edit"><i class="fas fa-pencil-alt"></i></a>';
+                    $command.='<a href="javascript:void(0);" onclick = "EditModal(\''.url('admin/categories/'.$categories->id.'/edit').'\')"  class="btn mb-2 mr-2 rounded-circle btn-outline-primary" data-placement="top" title="Edit"><i class="fas fa-pencil-alt"></i></a>';
                 }
                 if (moduleacess('admin/categories', 'delete')) {
-                    $command .= '<form class="table_from" action="' . route("admin.categories.destroy", $category->id) . '" method="POST">
+                    $command .= '<form class="table_from" action="' . route("admin.categories.destroy", $categories->id) . '" method="POST">
                 ' . method_field('DELETE') . '
                 ' . csrf_field() . '
                 <button type="submit" class="btn mb-2 mr-2 rounded-circle btn-outline-danger" value="delete" onClick="return confirm(\'Are You Sure You Want To Delete This?\')"><i class="fas fa-trash-alt"></i> </button>
@@ -147,7 +158,7 @@ class CategoriesController extends Controller
                 }
                 return $command;
             })
-            ->rawColumns(['edit', 'command'])
+            ->rawColumns(['parent', 'command'])
             ->make(true);
 
     }

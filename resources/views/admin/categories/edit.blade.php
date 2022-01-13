@@ -2,13 +2,16 @@
 <div class="modal-dialog modal-md">
     <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="EditModalLabel">{{trans('label.New')}} {{trans('label.Categories')}}</h5>
+            <h5 class="modal-title" id="EditModalLabel">{{trans('label.Edit')}} {{trans('label.Categories')}}</h5>
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
         <div class="modal-body">
             <form class="form-horizontal editCategory" method="post" action="javascript:void(0)" >
                 {{ method_field('PUT') }}
                 <div class="mb-3">
-                    <label for="category_name" class="col-form-label">Category Name:<?=$required_span; ?></label>
+                    <label for="category_name" class="col-form-label"> Name:<?=$required_span; ?></label>
                     <input class="form-control" type="text" name="category_name" id="category_name" value="{{ $row->category_name }}" required>
                 </div>
                 <button type="submit"  class="btn btn-primary  submit">Save</button>

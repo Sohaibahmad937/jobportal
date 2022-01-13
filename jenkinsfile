@@ -1,6 +1,6 @@
 pipeline {
     agent any
-
+ 
     stages {
         stage('Test') {
             steps {
@@ -15,16 +15,27 @@ pipeline {
                 sh './vendor/bin/phpunit ./tests'
             }
         }
+       # stage("Unit test") {
+        #    steps {
+         #       sh 'php artisan test'
+          #  }
+        #}
+       # stage("Code coverage") {
+        #    steps {
+         #       sh './vendor/bin/phpunit ./tests'
+          #  }
+        #}
      stage('Build docker image'){
            steps{
                sh 'pwd'
                
                sh 'ls -a'
                
-               echo "I am fine how about what me you "
+
                
                sh "docker build . -t jobportalimg:${env.BUILD_ID}"
            }
      }   
     }
 }
+# End jenkins file
