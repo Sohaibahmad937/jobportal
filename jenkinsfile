@@ -25,6 +25,9 @@ pipeline {
          #       sh './vendor/bin/phpunit ./tests'
           #  }
         #}
+        #create docker images 
+        #sh 'ls -l'
+        #sh'ps -a'
      stage('Build docker image'){
            steps{
                sh 'pwd'
